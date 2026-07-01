@@ -11,7 +11,7 @@ export class TransactionsService {
 
   async addTransaction(body) {
     try {
-      const { price, merchant, user_id, currency, transaction_date } = body;
+      const { price, merchant, user_id, transaction_date } = body;
 
       const { priceValue, currencyCode } = extractPriceDetails(price);
 
