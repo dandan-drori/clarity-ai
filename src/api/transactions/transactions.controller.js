@@ -4,9 +4,11 @@ import { TransactionsService } from './transactions.service.js';
 
 export const transactionsRouter = express.Router();
 
+// initialize dependencies
+const transactionsService = new TransactionsService();
+
 transactionsRouter.post('/', requireApiKey, express.json(), async (req, res) => {
   try {
-    const transactionsService = new TransactionsService();
     const transactionAddedResponse = await transactionsService.addTransaction(req.body);
     res.status(201).json(transactionAddedResponse);
   } catch (err) {
