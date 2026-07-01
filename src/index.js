@@ -6,7 +6,7 @@ import { setupGracefulShutdown } from './utils/shutdown.js';
 const app = express();
 const PORT = process.env.PORT || 5053;
 
-app.use('/webhook', transactionsRouter);
+app.use('/api/webhook', transactionsRouter);
 
 async function startApp() {
   await db.connect();
