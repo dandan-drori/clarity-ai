@@ -10,11 +10,9 @@ export const requireAuth = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     try {
-        const decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET, { algorithms: ['HS256'] });
 
-        // Attach the validated user data payload (`sub` contains the User UUID)
-        req.user = decoded;
-
+        req.user = decoded; // Attach the validated user data payload (`sub` contains the User UUID)
         next();
     } catch(err) {
         console.error("JWT Verification failed:", err.message);
