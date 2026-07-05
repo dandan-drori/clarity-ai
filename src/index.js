@@ -4,7 +4,7 @@ import { transactionsRouter } from './api/transactions/transactions.controller.j
 import { healthRouter } from './api/health/health.controller.js';
 import { setupGracefulShutdown } from './utils/shutdown.js';
 import cors from 'cors';
-import { CORS_OPTIONS } from '';
+import { CORS_OPTIONS } from './config/cors-options.js';
 
 const app = express();
 const PORT = process.env.PORT || 5053;
