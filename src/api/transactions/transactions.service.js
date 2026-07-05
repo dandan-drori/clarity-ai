@@ -83,9 +83,12 @@ export class TransactionsService {
         }
 
         const data = await db.query(selectQuery, values);
+
+        // convert prices to numbers for calculations
+        const rows = data.rows.map((row) => ({...row, price: typeof row.price === 'number' ? row.price : parseFloat(row.price)}));
         
         console.log(`Successfully fetched ${data?.rowCount} transactions for user ${userId}`);
-        return { status: 'success', data: data?.rows };
+        return { status: 'success', data: rows };
     } catch (err) {
         console.error('Fetch error', err);
         throw err;
