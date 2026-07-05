@@ -1,21 +1,30 @@
-import jwt from 'jsonwebtoken';
+import { createRemoteJWKSet, jwtVerify } from 'jose';
 
-export const requireAuth = (req, res, next) => {
+const SUPABASE_JWKS = createRemoteJWKSet(
+    new URL(`${process.env.SUPABASE_URL}/auth/v1/.well-known/jwks.json`)
+);
+
+export const requireAuth = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer')) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ error: 'Access token missing or invalid format' });
     }
 
     const token = authHeader.split(' ')[1];
 
     try {
-        const decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET, { algorithms: ['HS256'] });
+        // 2. Verify the token using the remote public keys
+        const { payload } = await jwtVerify(token, SUPABASE_JWKS, {
+            issuer: `${process.env.SUPABASE_URL}/auth/v1`
+        });
 
-        req.user = decoded; // Attach the validated user data payload (`sub` contains the User UUID)
+        // Attach the validated user data payload (contains `sub` UUID)
+        req.user = payload;
+
         next();
-    } catch(err) {
+    } catch (err) {
         console.error("JWT Verification failed:", err.message);
         return res.status(401).json({ error: 'Invalid or expired auth token.' });
     }
-}
+};
