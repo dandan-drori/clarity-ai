@@ -86,7 +86,7 @@ export class TransactionsService {
         
         console.log(`Successfully fetched transactions for user ${userId}`);
         return { status: 'success', data };
-    } catch (error) {
+    } catch (err) {
         console.error('Fetch error', err);
         throw err;
     }
