@@ -55,7 +55,7 @@ export class TransactionsService {
             return;
         }
 
-        let { timeframe } = filters;
+        let { timeframe } = filters ?? {};
 
         if (!TIMEFRAMES_TO_INTERVAL[timeframe]) {
             timeframe = 'all_time';
