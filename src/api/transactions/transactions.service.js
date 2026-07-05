@@ -84,8 +84,8 @@ export class TransactionsService {
 
         const data = await db.query(selectQuery, values);
         
-        console.log(`Successfully fetched transactions for user ${userId}`);
-        return { status: 'success', data };
+        console.log(`Successfully fetched ${data?.rowCount} transactions for user ${userId}`);
+        return { status: 'success', data: data?.rows };
     } catch (err) {
         console.error('Fetch error', err);
         throw err;
