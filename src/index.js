@@ -3,9 +3,13 @@ import { db, restrictedDb } from './database/index.js';
 import { transactionsRouter } from './api/transactions/transactions.controller.js';
 import { healthRouter } from './api/health/health.controller.js';
 import { setupGracefulShutdown } from './utils/shutdown.js';
+import cors from 'cors';
+import { CORS_OPTIONS } from '';
 
 const app = express();
 const PORT = process.env.PORT || 5053;
+
+app.use(cors(CORS_OPTIONS));
 
 app.use('/api/health/liveness', healthRouter);
 app.use('/api/webhook', transactionsRouter);
