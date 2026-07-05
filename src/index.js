@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 5053;
 
 app.use('/api/health/liveness', healthRouter);
 app.use('/api/webhook', transactionsRouter);
+app.use('/api/transactions', transactionsRouter);
 
 async function startApp() {
   await db.connect();
