@@ -7,7 +7,7 @@ const SUPABASE_JWKS = createRemoteJWKSet(
 export const requireAuth = async (req, res, next) => {
   if (process.env.NODE_ENV === 'development' && req.headers['x-mock-user']) {
     req.user = {
-      id: 'mock-local-uid-123',
+      sub: '4e683a4b-a22b-4e15-acb8-9c3abfbed63b',
       email: 'local-dev@example.com',
       role: 'developer',
     };
