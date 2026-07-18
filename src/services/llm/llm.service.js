@@ -1,5 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import { systemInstruction } from './system-prompt.config.js';
+import { MERCHANT_CATEGORIES } from './merchant-categories.config.js';
 
 let ai = null;
 
@@ -10,6 +11,9 @@ export class LlmService {
   }
 
   async categorizeTransaction(merchantName) {
+    const knownCategory = MERCHANT_CATEGORIES[merchantName.toLowerCase()];
+    if (knownCategory) return knownCategory;
+
     try {
       // We use the Gemini 2.5 Flash model, which is lightning fast and free for low volume.
       const response = await ai?.models?.generateContent?.({
